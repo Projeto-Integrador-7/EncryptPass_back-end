@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const db = require('./config/db')
+const mongoose = require('./config/db')
 
 const server = express()
 
@@ -12,3 +12,5 @@ const port = 3005
 server.listen(port, () => {
   console.log(`running on port ${port}`)
 });
+
+require("./routes/userRoutes") (server)
