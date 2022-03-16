@@ -42,6 +42,10 @@ async function login(req, res) {
             email: email
         }).select("+password")
 
+        if(!user) {
+            return res.status(400).json({ error: "Invalid 'email'" });
+        }
+
         const result = await bcrypt.compare(password, user.password)
 
         if(result) {
@@ -51,7 +55,7 @@ async function login(req, res) {
             return res.status(200).json({user, token})
         }
 
-        return res.status(401).json({ error: "Invalid 'password'" });
+        return res.status(400).json({ error: "Invalid 'password'" });
         
     } catch (err) {
         return res.status(400).json({ error: "Bad Request" });

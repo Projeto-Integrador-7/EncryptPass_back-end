@@ -1,8 +1,12 @@
 const router = require("express").Router()
 const userController = require('../controllers/userController')
-const auth = require("./middlewares/auth")
+const authMiddleware = require("./middlewares/auth")
 
-router.use("/^(?!.*?create).*/gm",auth)
+const privateRoutes = [
+    '/findOne/:id/'
+]
+
+router.use(privateRoutes, authMiddleware)
 
 router.post("/create", async (req, res) => {
     await userController.create(req, res)
