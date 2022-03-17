@@ -12,14 +12,24 @@ function generateToken(id) {
     return token;
 }
 
-async function create(req, res) {    
+async function create(req, res) { 
+
     const { body } = req
-        
+
     try {
+
+        const registeredUser = await UserModel.findOne({email: body.email})
+        if (registeredUser) {
+            return res.status(400).json({error: "'email' already registered"})
+        }
+
         const user = await UserModel.create(body)
         return res.status(201).json({success: "User created", user})
+
     } catch (error) {
+
         return res.status(400).json({error: "Bad request"})
+
     }
 }
 

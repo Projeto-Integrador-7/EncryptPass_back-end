@@ -1,5 +1,6 @@
 const moongose = require('../config/db')
 const bcrypt = require('bcrypt')
+const res = require('express/lib/response')
 
 const UserSchema = new moongose.Schema({
 
@@ -9,8 +10,7 @@ const UserSchema = new moongose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     password: {
         type: String,
