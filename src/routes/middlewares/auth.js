@@ -13,9 +13,10 @@ function auth(req, res, next) {
 
         jwt.verify(token, process.env.JWT_SECRET)
 
+
     } catch (error) {
 
-        return res.status(400).json({error: "Bad request"})
+        return res.status(400).json({error: "invalid token"})
     }
 
     next()

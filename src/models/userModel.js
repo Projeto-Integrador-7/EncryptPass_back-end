@@ -23,7 +23,7 @@ const UserSchema = new moongose.Schema({
     },
     passwordReminderTip: {
         type: String,
-        required: true
+        required: false
     },
     phoneNumber: {
         type: String,
@@ -37,7 +37,7 @@ const UserSchema = new moongose.Schema({
 UserSchema.pre('save', async function(next) {
 
     const encryptedPass = await bcrypt.hash(this.password, 10);
-    this.password = encryptedPass;  
+    this.password = encryptedPass;
 
     next();
 })

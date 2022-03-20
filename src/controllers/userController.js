@@ -1,4 +1,3 @@
-const mongoose = require('../config/db')
 const UserModel = require('../models/userModel')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
@@ -34,7 +33,7 @@ async function create(req, res) {
 }
 
 async function findOne(req, res) {    
-    const { id } = req.query
+    const { id } = req.params
     try {
         const user = await UserModel.findById(id)
         return res.status(200).json(user)
