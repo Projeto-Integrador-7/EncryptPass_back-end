@@ -1,7 +1,9 @@
 const router = require("express").Router()
 const userController = require('../controllers/userController')
 const authMiddleware = require("./middlewares/auth")
+const validEmail = require("./middlewares/validEmail")
 const validPassForce = require("./middlewares/validPassForce")
+
 
 const privateRoutes = [
     '/findOne/:id/'
@@ -9,6 +11,7 @@ const privateRoutes = [
 
 router.use(privateRoutes, authMiddleware)
 router.use('/create', validPassForce)
+router.use(['/create', '/login'], validEmail)
 
 router.post("/create", async (req, res) => {
 

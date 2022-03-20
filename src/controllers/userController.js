@@ -19,15 +19,15 @@ async function create(req, res) {
 
         const registeredUser = await UserModel.findOne({email: body.email})
         if (registeredUser) {
-            return res.status(400).json({error: "'email' already registered"})
+            return res.status(400).json({Erro: "O email fornecido já está cadastrado!"})
         }
 
         const user = await UserModel.create(body)
-        return res.status(201).json({success: "User created", user})
+        return res.status(201).json({Sucesso: "Usuário criado", user})
 
     } catch (error) {
 
-        return res.status(400).json({error: "Bad request"})
+        return res.status(400).json({Erro: "Requisição Inválida"})
 
     }
 }
@@ -52,7 +52,7 @@ async function login(req, res) {
         }).select("+password")
 
         if(!user) {
-            return res.status(400).json({ error: "Invalid 'email'" });
+            return res.status(400).json({ Erro: "O email fornecido não foi encontrado!"});
         }
 
         const result = await bcrypt.compare(password, user.password)
@@ -64,10 +64,10 @@ async function login(req, res) {
             return res.status(200).json({user, token})
         }
 
-        return res.status(400).json({ error: "Invalid 'password'" });
+        return res.status(400).json({Erro: "A senha fornecida não é válida!"});
         
     } catch (err) {
-        return res.status(400).json({ error: "Bad Request" });
+        return res.status(400).json({Erro: "Requisição Inválida"});
     }
 }
 
