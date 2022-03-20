@@ -36,7 +36,8 @@ const UserSchema = new moongose.Schema({
     }
 }, 
 {
-    versionKey: false
+    versionKey: false,
+    timestamps: true
 })
 
 UserSchema.pre('save', async function(next) {

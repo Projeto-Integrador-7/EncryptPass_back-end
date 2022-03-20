@@ -6,7 +6,7 @@ const validPassForce = require("./middlewares/validPassForce")
 
 
 const privateRoutes = [
-    '/findOne/:id/'
+    '/:userId'
 ]
 
 router.use(privateRoutes, authMiddleware)
@@ -15,15 +15,16 @@ router.use(['/create', '/login'], validEmail)
 
 router.post("/create", async (req, res) => {
 
-    //  #swagger.path = "/user/create"
-    //  #swagger.tags = ["User"]
+    /*  #swagger.path = "/user/create"
+        #swagger.tags = ["User"]
+    */
 
     await userController.create(req, res)
 })
 
-router.get("/findOne/:id", async (req, res) => {
+router.get("/:userId", async (req, res) => {
 
-    /*  #swagger.path = "/user/findOne/{id}"
+    /*  #swagger.path = "/user/{userId}"
         #swagger.parameters['Authorization'] = {
         in: "header",
         required: true
@@ -40,6 +41,32 @@ router.post("/login", async (req, res) => {
     //  #swagger.tags = ["User"]
 
     await userController.login(req, res)
+})
+
+router.put("/:userId", async (req, res) => {
+
+    /*  #swagger.path = "/user/{userId}"
+        #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true
+    } 
+        #swagger.tags = ["User"]
+    */
+
+    await userController.update(req, res)
+})
+
+router.delete("/:userId", async (req, res) => {
+
+    /*  #swagger.path = "/user/{userId}"
+        #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true
+    } 
+        #swagger.tags = ["User"]
+    */
+
+    await userController.delete(req, res)
 })
 
 module.exports = server => server.use('/user', router);

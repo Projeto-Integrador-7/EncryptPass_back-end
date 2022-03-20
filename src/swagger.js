@@ -1,7 +1,10 @@
 const swaggerAutogen = require('swagger-autogen')()
 
 const outputFile = './src/swagger.json'
-const endpointsFiles = ['./src/routes/userRoutes.js']
+const endpointsFiles = [
+    './src/routes/userRoutes.js',
+    './src/routes/credentialsRoutes.js'
+]
 
 const doc = {
     info: {
@@ -10,19 +13,15 @@ const doc = {
     },
     host: "localhost:3005",
     basePath: "/",
-    schemes: ['http', 'https'],
+    schemes: ['http'],
     consumes: ['application/json'],
     produces: ['application/json'],
-    securityDefinitions: {
-        authorization:{
-            type: "oauth",
-            in: "header",       // can be "header", "query" or "cookie"
-            name: "Authorization",  // name of the header, query parameter or cookie
-        }
-    },
     tags: [
         {
             "name": "User",
+        },
+        {
+            "name" : "Credentials"
         }
     ],
     definitions: {
@@ -33,6 +32,14 @@ const doc = {
             passwordReminder: true,
             passwordReminderTip: "Some tip",
             phoneNumber: "34 99999-9999"
+        },
+        Credentials: {
+            title: "Google",
+            url: "https://www.google.com.br/",
+            password: "password",
+            login: "jose@email.com",
+            folderId: "6237a07d0c3f8033d777160e",
+            userId : "1237a41dsc3f8b33d72d160a"
         }
     }
 }

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 function generateToken(id) {
 
     const token = jwt.sign({id}, process.env.JWT_SECRET, {
-        expiresIn: 3600
+        expiresIn: 86400
     })
 
     return token;
@@ -13,7 +13,7 @@ function generateToken(id) {
 
 async function create(req, res) { 
 
-    const { body } = req
+    const body = req.body
 
     try {
 
@@ -23,7 +23,8 @@ async function create(req, res) {
         }
 
         const user = await UserModel.create(body)
-        return res.status(201).json({Sucesso: "Usuário criado", user})
+        const token = generateToken(user._id)
+        return res.status(201).json({Sucesso: "Usuário criado", user, token})
 
     } catch (error) {
 
@@ -32,13 +33,17 @@ async function create(req, res) {
     }
 }
 
-async function findOne(req, res) {    
-    const { id } = req.params
+async function findOne(req, res) { 
+    const { userId } = req.params
+
+    if(req.userId != userId)
+        return res.status(400).json({Erro: "O 'id' fornecido não é acessível!"})
+
     try {
         const user = await UserModel.findById(id)
         return res.status(200).json(user)
     } catch (error) {
-        return res.json(error)
+        return res.status(400).json(error)
     }
 }
 
@@ -66,7 +71,7 @@ async function login(req, res) {
 
         return res.status(400).json({Erro: "A senha fornecida não é válida!"});
         
-    } catch (err) {
+    } catch (error) {
         return res.status(400).json({Erro: "Requisição Inválida"});
     }
 }

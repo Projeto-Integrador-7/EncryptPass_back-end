@@ -5,7 +5,7 @@ const swaggerDocument = require('./swagger.json');
 
 const server = express()
 
-server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+server.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 server.use(express.json())
 server.use(cors())
 
@@ -16,3 +16,4 @@ server.listen(port, () => {
 });
 
 require("./routes/userRoutes") (server)
+require("./routes/credentialsRoutes") (server)
