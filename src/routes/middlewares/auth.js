@@ -11,9 +11,10 @@ function auth(req, res, next) {
 
     try {
 
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if(err) return res.status(401).json({Erro: "O token fornecido é inválido!"})
             req.userId = decoded.id
+            
         })
 
     } catch (error) {

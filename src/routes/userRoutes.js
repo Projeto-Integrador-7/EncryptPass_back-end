@@ -5,11 +5,7 @@ const validEmail = require("./middlewares/validEmail")
 const validPassForce = require("./middlewares/validPassForce")
 
 
-const privateRoutes = [
-    '/:userId'
-]
-
-router.use(privateRoutes, authMiddleware)
+router.use(/\/[0-9a-fA-F]{24}/, authMiddleware)
 router.use('/create', validPassForce)
 router.use(['/create', '/login'], validEmail)
 

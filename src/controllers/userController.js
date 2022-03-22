@@ -40,7 +40,7 @@ async function findOne(req, res) {
         return res.status(400).json({Erro: "O 'id' fornecido não é acessível!"})
 
     try {
-        const user = await UserModel.findById(id)
+        const user = await UserModel.findById(userId)
         return res.status(200).json(user)
     } catch (error) {
         return res.status(400).json(error)
