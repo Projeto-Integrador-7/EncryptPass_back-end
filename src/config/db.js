@@ -1,10 +1,8 @@
-const admin = require("firebase-admin")
-const serviceAccount = require("../secrets/firebase-credentials.json")
+const mongoose = require('mongoose')
+require('dotenv/config');
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
+const env = process.env;
 
-const db = admin.firestore()
+mongoose.connect(`mongodb+srv://${env.MONGODB_USER}:${env.MONGODB_PASSWORD}@cluster0.s2mjo.mongodb.net/encryptPass?retryWrites=true&w=majority`)
 
-module.exports = db;
+module.exports = mongoose;
