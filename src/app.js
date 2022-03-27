@@ -17,3 +17,4 @@ server.listen(port, () => {
 
 require("./routes/userRoutes") (server)
 require("./routes/credentialsRoutes") (server)
+require("./routes/folderRoutes") (server)

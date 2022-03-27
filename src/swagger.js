@@ -3,7 +3,8 @@ const swaggerAutogen = require('swagger-autogen')()
 const outputFile = './src/swagger.json'
 const endpointsFiles = [
     './src/routes/userRoutes.js',
-    './src/routes/credentialsRoutes.js'
+    './src/routes/credentialsRoutes.js',
+    './src/routes/folderRoutes.js'
 ]
 
 const doc = {
@@ -22,6 +23,9 @@ const doc = {
         },
         {
             "name" : "Credentials"
+        },
+        {
+            "name": "Folder"
         }
     ],
     definitions: {
@@ -40,6 +44,10 @@ const doc = {
             login: "jose@email.com",
             folderId: "6237a07d0c3f8033d777160e",
             userId : "1237a41dsc3f8b33d72d160a"
+        },
+        Folder: {
+            title: "Séries",
+            description: "Pasta para séries Netflix"
         }
     }
 }
