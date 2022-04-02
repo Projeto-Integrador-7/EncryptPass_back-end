@@ -28,7 +28,7 @@ async function findOne(req, res) {
     }
 }
 
-async function getAllFolder(req, res) {
+async function getAllFolders(req, res) {
     try {
         const folders = await FolderModel.find();
         return res.status(200).json(folders);
@@ -49,9 +49,23 @@ async function deleteFolder(req, res) {
     }
 }
 
+async function updateFolder(req, res) {
+    try {
+        const { id } = req.params;
+        const { title, description } = req.body;
+
+        await FolderModel.updateOne({ id: id, title: title, description: description });
+        const folder = await FolderModel.findOne({ _id: id });
+        return res.status(200).json(folder);       
+    } catch (error) {
+        return res.status(400).json({Erro: "Requisição Inválida."});
+    }
+}
+
 module.exports = {
     createFolder,
     findOne,
-    getAllFolder,
-    deleteFolder
+    getAllFolders,
+    deleteFolder,
+    updateFolder
 }
