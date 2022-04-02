@@ -15,19 +15,43 @@ async function createFolder(req, res) {
 }
 
 async function findOne(req, res) { 
-    const { title } = req.params;
-
-    if(req.title != title) return res.status(400).json({Erro: "Pasta não encontrada."})
     try {
+        const { title } = req.params;
+        if(req.title != title) 
+            return res.status(400).json({Erro: "Pasta não encontrada."})
+            
         const titleFolder = await FolderModel.findNameByTitle(title);
         return res.status(200).json(titleFolder);
 
     } catch (error) {
-        return res.status(400).json(error);
+        return res.status(400).json({Erro: "Requisição Inválida."});
+    }
+}
+
+async function getAllFolder(req, res) {
+    try {
+        const folders = await FolderModel.find();
+        return res.status(200).json(folders);
+    } catch (error) {
+        return res.status(400).json({Erro: "Requisição Inválida."});
+    }
+}
+
+async function deleteFolder(req, res) {
+    try {
+        const body = req.body;
+        
+        const deleteFolder = await FolderModel.deleteOne({ id: body.folder });
+        if(deleteFolder instanceof Error) 
+            return res.status(400).json(deleteFolder);
+    } catch (error) {
+        return res.status(400).json({Erro: "Requisição Inválida."});
     }
 }
 
 module.exports = {
     createFolder,
-    findOne
+    findOne,
+    getAllFolder,
+    deleteFolder
 }

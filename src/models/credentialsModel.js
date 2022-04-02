@@ -1,40 +1,43 @@
 const mongoose = require('../config/db')
-
+const crypto = require("crypto-js")
 
 const CredentialsSchema = new mongoose.Schema({
-    title : {
+    title: {
         type: String,
         required: true,
         trim: true
     },
-    url : {
+    url: {
         type: String,
         required: false
     },
-    password : {
+    password: {
         type: String,
         required: true,
     },
-    login : {
+    login: {
         type: String,
         required: true
     },
-    folderId : {
+    folderId: {
         type: mongoose.Types.ObjectId,
-        required: false
+        required: false,
+        ref: 'Folder'
     },
-    userId : {
+    userId: {
         type: mongoose.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'User'
     }
 }, {
     versionKey: false,
     timestamps: true
 })
 
-CredentialsSchema.pre('save', async function(next) {
+CredentialsSchema.pre('save', function (next) {
 
-    const encryptedPass = await bcrypt.hash(this.password, 10);
+    const encryptedPass = crypto.AES.encrypt(this.password, process.env.ENCRYPT_SECRET).toString()
+
     this.password = encryptedPass;
 
     next();
