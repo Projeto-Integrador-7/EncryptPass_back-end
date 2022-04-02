@@ -1,6 +1,7 @@
 const UserModel = require('../models/userModel')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
+const isUserAllowed = require('../utils/compareUserIdWithToken')
 
 function generateToken(id) {
 
@@ -34,16 +35,20 @@ async function create(req, res) {
 }
 
 async function findOne(req, res) { 
-    const { userId } = req.params
 
-    if(req.userId != userId)
-        return res.status(400).json({Erro: "O 'id' fornecido não é acessível!"})
+    const {userId} = req.params
 
     try {
+
+        if(!isUserAllowed(userId, req.userId)) 
+            return res.status(400).json({Erro: "O 'id' fornecido não é acessível!"})
+
         const user = await UserModel.findById(userId)
+
         return res.status(200).json(user)
+
     } catch (error) {
-        return res.status(400).json(error)
+        return res.status(400).json({Erro: "Requisição Inválida"})
     }
 }
 

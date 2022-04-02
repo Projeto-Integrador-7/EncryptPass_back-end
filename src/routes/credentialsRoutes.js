@@ -6,6 +6,8 @@ router.use('/', authMiddleware)
 
 router.post('/:userId/create', async (req, res) => {
 
+    await credentialsController.create(req,res)
+
     /*  #swagger.path = "/credentials/{userId}/create"
         #swagger.parameters['Authorization'] = {
             in: "header",
