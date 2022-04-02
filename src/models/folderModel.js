@@ -3,16 +3,21 @@ const mongoose = require('../config/db');
 const FolderSchema = new mongoose.Schema({
     title: {
         type: String,
+        minLength: 3,
+        maxLength: 20,
         required: true,
     },
     description: {
-        trype: String,
+        type: String,
+        minLength: 3,
+        maxLength: 40,
         required: false
     },
-    userId: {
+    userId: [{
         type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true
-    }
+    }]
 },
 {
     versionKey: false,
