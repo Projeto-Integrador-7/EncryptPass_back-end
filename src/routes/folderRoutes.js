@@ -21,7 +21,14 @@ router.post("/createFolder", async (req, res) => {
     await folderController.createFolder(req, res);
 });
 
-router.put("/:updateFolder", async (req, res) => {
+router.get("/", async (req, res) => {
+    //  #swagger.path = "/folder/getAllFolders"
+    //  #swagger.tags = ["Folder"]
+
+    await folderController.getAllFolders(req, res);
+});
+
+router.put("/:id", async (req, res) => {
 
     /*  #swagger.path = "/folder/{updateFolder}"
         #swagger.parameters['Authorization'] = {
@@ -31,10 +38,10 @@ router.put("/:updateFolder", async (req, res) => {
         #swagger.tags = ["Folder"]
     */
 
-        await folderController.update(req, res);
+        await folderController.updateFolder(req, res);
 });
 
-router.delete("/:deleteFolder", async(req, res) => {
+router.delete("/:id", async(req, res) => {
 
     /*  #swagger.path = "/folder/{deleteFolder}"
         #swagger.parameters['Authorization'] = {
@@ -44,7 +51,7 @@ router.delete("/:deleteFolder", async(req, res) => {
         #swagger.tags = ["Folder"]
     */
 
-    await folderController.delete(req, res);
+    await folderController.deleteFolder(req, res);
 });
 
 module.exports = server => server.use('/folder', router);
