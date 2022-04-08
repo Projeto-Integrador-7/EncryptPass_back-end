@@ -5,8 +5,8 @@ const validEmail = require("./middlewares/validEmail")
 const validPassForce = require("./middlewares/validPassForce")
 
 
-router.use(/\/[0-9a-fA-F]{24}/, authMiddleware)
-router.use('/create', validPassForce)
+router.use([/\/[0-9a-fA-F]{24}/, '/update'], authMiddleware)
+router.use(['/create', '/update'], validPassForce)
 router.use(['/create', '/login'], validEmail)
 
 router.post("/create", async (req, res) => {
@@ -39,7 +39,10 @@ router.post("/login", async (req, res) => {
     await userController.login(req, res)
 })
 
-router.put("/:userId", async (req, res) => {
+router.put("/update/:userId", async (req, res) => {
+
+
+    await userController.updateOne(req, res)
 
     /*  #swagger.path = "/user/{userId}"
         #swagger.parameters['Authorization'] = {
@@ -48,8 +51,6 @@ router.put("/:userId", async (req, res) => {
     } 
         #swagger.tags = ["User"]
     */
-
-    await userController.update(req, res)
 })
 
 router.delete("/:userId", async (req, res) => {

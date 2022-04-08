@@ -48,6 +48,14 @@ UserSchema.pre('save', async function(next) {
     next();
 })
 
+UserSchema.pre('updateOne', async function (next) {
+
+    const encryptedPass = await bcrypt.hash(this._update.password, 10);
+    this._update.password = encryptedPass;
+
+    next();
+})
+
 const User = moongose.model("User", UserSchema)
 
 module.exports = User;

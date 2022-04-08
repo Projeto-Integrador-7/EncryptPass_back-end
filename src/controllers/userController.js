@@ -14,22 +14,22 @@ function generateToken(id) {
 
 async function create(req, res) { 
 
-    const body = req.body
+    const {body} = req
 
     try {
 
         const registeredUser = await UserModel.findOne({email: body.email})
         if (registeredUser) {
-            return res.status(400).json({Erro: "O email fornecido já está cadastrado!"})
+            return res.status(409).json({Erro: "O email fornecido já está cadastrado!"})
         }
 
         const user = await UserModel.create(body)
         const token = generateToken(user._id)
-        return res.status(201).json({Sucesso: "Usuário criado", user, token})
+        return res.status(201).json({Sucesso: "O usuário foi criado com sucesso!", user, token})
 
     } catch (error) {
 
-        return res.status(400).json({Erro: "Requisição Inválida"})
+        return res.status(400).json({Erro: "Houve um erro!"})
 
     }
 }
@@ -41,14 +41,14 @@ async function findOne(req, res) {
     try {
 
         if(!isUserAllowed(userId, req.userId)) 
-            return res.status(400).json({Erro: "O 'id' fornecido não é acessível!"})
+            return res.status(403).json({Erro: "O usuário não possuí acesso ao recurso!"})
 
         const user = await UserModel.findById(userId)
 
-        return res.status(200).json(user)
+        return res.status(200).json({Sucesso: "O usuário foi buscado com sucesso!", user})
 
     } catch (error) {
-        return res.status(400).json({Erro: "Requisição Inválida"})
+        return res.status(400).json({Erro: "Houve um erro!"})
     }
 }
 
@@ -62,27 +62,53 @@ async function login(req, res) {
         }).select("+password")
 
         if(!user) {
-            return res.status(400).json({ Erro: "O email fornecido não foi encontrado!"});
+            return res.status(404).json({ Erro: "O email fornecido não foi encontrado!"});
         }
 
         const result = await bcrypt.compare(password, user.password)
 
         if(result) {
-
             user.password = undefined;
             const token = generateToken(user._id)
-            return res.status(200).json({user, token})
+            return res.status(200).json({ Sucesso: "O login foi efetuado com sucesso!", user, token})
         }
 
         return res.status(400).json({Erro: "A senha fornecida não é válida!"});
         
     } catch (error) {
-        return res.status(400).json({Erro: "Requisição Inválida"});
+        return res.status(400).json({Erro: "Houve um erro!"});
+    }
+}
+
+async function updateOne(req, res) {    
+
+    const { userId } = req.params
+    const { body } = req
+
+    try {
+
+        if(!isUserAllowed(userId, req.userId)) 
+            return res.status(403).json({Erro: "O usuário não possuí acesso ao recurso!"})
+
+        const updateRes = await UserModel.updateOne({_id: userId}, body)
+
+        if(!updateRes.modifiedCount) {
+            return res.status(404).json({Erro: "O usuário não foi encontrado!"})
+        }
+
+        const user = await UserModel.findById(userId)
+
+        return res.status(200).json({Sucesso: "O usuário foi alterado com sucesso!", user});
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({Erro: "Houve um erro!"});
     }
 }
 
 module.exports = {
     create,
     findOne,
-    login
+    login,
+    updateOne
 }
