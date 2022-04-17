@@ -17,11 +17,11 @@ router.post('/:userId/create', async (req, res) => {
 
 })
 
-router.get('/:userId/:credentialsId', async (req, res) => {
+router.get('/:userId/find/:credentialsId', async (req, res) => {
 
     await credentialsController.findOne(req,res)
 
-    /*  #swagger.path = "/credentials/{userId}/{credentialsId}"
+    /*  #swagger.path = "/credentials/{userId}/find/{credentialsId}"
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
@@ -39,14 +39,16 @@ router.get('/:userId/findAll', async (req, res) => {
         #swagger.tags = ["Credentials"]
     */
 
+    await credentialsController.findAll(req, res)
+
 })
 
-router.put('/:userId/:credentialsId', async (req, res) => {
+router.put('/:userId/update/:credentialsId', async (req, res) => {
 
     await credentialsController.updateOne(req,res)
 
 
-    /*  #swagger.path = "/credentials/{userId}/{credentialsId}"
+    /*  #swagger.path = "/credentials/{userId}/update/{credentialsId}"
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
@@ -55,11 +57,11 @@ router.put('/:userId/:credentialsId', async (req, res) => {
 
 })
 
-router.delete('/:userId/:credentialsId', async (req, res) => {
+router.delete('/:userId/delete/:credentialsId', async (req, res) => {
 
     await credentialsController.deleteOne(req,res)
 
-    /*  #swagger.path = "/credentials/{userId}/{credentialsId}"
+    /*  #swagger.path = "/credentials/{userId}/delete/{credentialsId}"
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true

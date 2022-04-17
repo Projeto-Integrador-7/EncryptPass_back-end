@@ -42,8 +42,7 @@ const doc = {
             url: "https://www.google.com.br/",
             password: "password",
             login: "jose@email.com",
-            folderId: "6237a07d0c3f8033d777160e",
-            userId : "1237a41dsc3f8b33d72d160a"
+            folderId: "6237a07d0c3f8033d777160e"
         },
         Folder: {
             title: "Séries",

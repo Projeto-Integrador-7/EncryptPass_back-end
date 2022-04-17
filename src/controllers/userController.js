@@ -45,6 +45,9 @@ async function findOne(req, res) {
 
         const user = await UserModel.findById(userId)
 
+        if(!user)
+            return res.status(404).json({Erro: "O usuário não foi encontrado!"})
+            
         return res.status(200).json({Sucesso: "O usuário foi buscado com sucesso!", user})
 
     } catch (error) {
@@ -101,7 +104,28 @@ async function updateOne(req, res) {
         return res.status(200).json({Sucesso: "O usuário foi alterado com sucesso!", user});
         
     } catch (error) {
-        console.log(error)
+        return res.status(400).json({Erro: "Houve um erro!"});
+    }
+}
+
+async function deleteOne(req, res) {    
+
+    const { userId } = req.params
+    
+    try {
+
+        if(!isUserAllowed(userId, req.userId)) 
+            return res.status(403).json({Erro: "O usuário não possuí acesso ao recurso!"})
+
+        const deleteRes = await UserModel.deleteOne({_id: userId})
+
+        if(!deleteRes.deletedCount) {
+            return res.status(404).json({Erro: "O usuário não foi encontrado!"})
+        }
+
+        return res.status(200).json({Sucesso: "A usuário foi excluído com sucesso!"})
+        
+    } catch (error) {
         return res.status(400).json({Erro: "Houve um erro!"});
     }
 }
@@ -110,5 +134,6 @@ module.exports = {
     create,
     findOne,
     login,
-    updateOne
+    updateOne,
+    deleteOne
 }
