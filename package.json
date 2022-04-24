@@ -21,6 +21,7 @@
     "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
+    "dayjs": "^1.11.1",
     "jest": "^27.5.1"
   }
 }

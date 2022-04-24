@@ -36,6 +36,19 @@ router.get("/find/:userId", async (req, res) => {
     await userController.findOne(req, res)
 })
 
+router.post("/refreshToken", async (req, res) => {
+
+    /*  #swagger.path = "/user/refreshToken"
+        #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true
+    } 
+        #swagger.tags = ["User"]
+    */
+
+    await userController.refreshToken(req, res)
+})
+
 router.post("/login", async (req, res) => {
 
     //  #swagger.path = "/user/login"

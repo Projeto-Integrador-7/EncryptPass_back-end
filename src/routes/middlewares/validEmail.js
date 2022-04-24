@@ -9,7 +9,7 @@ function validEmail(req, res, next) {
         return res.status(400).json({Erro: "O email inserido é inválido!"})
     }
 
-    next()
+    return next()
 
 }
 

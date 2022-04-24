@@ -40,7 +40,7 @@ CredentialsSchema.pre('save', function (next) {
 
     this.password = encryptedPass;
 
-    next();
+    return next();
 })
 
 CredentialsSchema.pre('updateOne', function (next) {
@@ -49,7 +49,7 @@ CredentialsSchema.pre('updateOne', function (next) {
 
     this._update.password = encryptedPass;
 
-    next();
+    return next();
 })
 
 const Credentials = mongoose.model("Credentials", CredentialsSchema)

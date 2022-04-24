@@ -10,7 +10,7 @@ function validPassForce(req, res, next) {
         return res.status(400).json({Erro: "A senha inserida é fraca!"})
     }
 
-    next()
+    return next()
 
 }
 

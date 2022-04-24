@@ -80,6 +80,34 @@ async function findAll(req, res) {
     }
 }
 
+async function findAllByFolder(req, res) {
+
+    const { userId, folderId } = req.params
+
+    try {
+
+        if(!isUserAllowed(userId, req.userId)) 
+            return res.status(403).json({Erro: "O usuário não possuí acesso ao recurso!"})
+
+        const credentials = await CredentialsModel.find({userId: userId, folderId: folderId})
+
+        console.log(credentials)
+
+        if(!credentials || credentials.length == 0) {
+            return res.status(404).json({Erro: "Nenhuma credencial foi encontrada!"})
+        }
+
+        credentials.map(credential => {
+            return credential.password = crypto.AES.decrypt(credential.password, process.env.ENCRYPT_SECRET).toString(crypto.enc.Utf8)
+        })
+
+        return res.status(200).json({Sucesso: "As credenciais foram buscadas com sucesso!", credentials})
+        
+    } catch (error) {
+        return res.status(400).json({Erro: "Houve um erro!"})
+    }
+}
+
 async function updateOne(req, res) {
 
     const { body } = req
@@ -138,5 +166,6 @@ module.exports = {
     findOne,
     findAll,
     updateOne,
-    deleteOne
+    deleteOne,
+    findAllByFolder
 }

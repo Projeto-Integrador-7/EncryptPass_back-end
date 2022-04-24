@@ -43,6 +43,19 @@ router.get('/:userId/findAll', async (req, res) => {
 
 })
 
+router.get('/:userId/:folderId', async (req, res) => {
+
+    /*  #swagger.path = "/credentials/{userId}/{folderId}"
+        #swagger.parameters['Authorization'] = {
+            in: "header",
+            required: true
+        #swagger.tags = ["Credentials"]
+    */
+
+    await credentialsController.findAllByFolder(req, res)
+
+})
+
 router.put('/:userId/update/:credentialsId', async (req, res) => {
 
     await credentialsController.updateOne(req,res)
