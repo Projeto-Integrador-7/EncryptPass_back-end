@@ -12,6 +12,7 @@ router.post('/:userId/create', async (req, res) => {
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
+        }
         #swagger.tags = ["Credentials"]
     */
 
@@ -25,6 +26,7 @@ router.get('/:userId/find/:credentialsId', async (req, res) => {
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
+        }
         #swagger.tags = ["Credentials"]
     */
 
@@ -36,6 +38,7 @@ router.get('/:userId/findAll', async (req, res) => {
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
+        }
         #swagger.tags = ["Credentials"]
     */
 
@@ -49,6 +52,7 @@ router.get('/:userId/:folderId', async (req, res) => {
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
+        }
         #swagger.tags = ["Credentials"]
     */
 
@@ -65,6 +69,7 @@ router.put('/:userId/update/:credentialsId', async (req, res) => {
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
+        }
         #swagger.tags = ["Credentials"]
     */
 
@@ -78,6 +83,7 @@ router.delete('/:userId/delete/:credentialsId', async (req, res) => {
         #swagger.parameters['Authorization'] = {
             in: "header",
             required: true
+        }
         #swagger.tags = ["Credentials"]
     */
 

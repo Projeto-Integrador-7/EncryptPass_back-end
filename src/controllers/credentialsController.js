@@ -91,8 +91,6 @@ async function findAllByFolder(req, res) {
 
         const credentials = await CredentialsModel.find({userId: userId, folderId: folderId})
 
-        console.log(credentials)
-
         if(!credentials || credentials.length == 0) {
             return res.status(404).json({Erro: "Nenhuma credencial foi encontrada!"})
         }

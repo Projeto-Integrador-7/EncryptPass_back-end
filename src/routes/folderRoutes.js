@@ -41,7 +41,7 @@ router.put("/:userId/update/:folderId", async (req, res) => {
         #swagger.tags = ["Folder"]
     */
 
-        await folderController.updateFolder(req, res);
+    await folderController.updateFolder(req, res);
 });
 
 router.delete("/:userId/delete/:folderId", async(req, res) => {
