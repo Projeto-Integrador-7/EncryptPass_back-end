@@ -1,9 +1,12 @@
 const router = require("express").Router();
 const folderController = require('../controllers/folderController');
+const authMiddleware = require("./middlewares/auth");
 
-router.get("/:folderId", async (req, res) => {
+router.use('/', authMiddleware);
 
-    /*  #swagger.path = "/folder/{folderId}"
+router.get("/find/:userId/:folderId", async (req, res) => {
+
+    /*  #swagger.path = "/folder/find/{userId}/{folderId}"
         #swagger.parameters['Authorization'] = {
         in: "header",
         required: true
@@ -13,24 +16,24 @@ router.get("/:folderId", async (req, res) => {
     await folderController.findOne(req, res);
 });
 
-router.post("/createFolder", async (req, res) => {
+router.post("/:userId/create", async (req, res) => {      
 
-    //  #swagger.path = "/folder/createFolder"
+    //  #swagger.path = "/folder/{userId}/create"
     //  #swagger.tags = ["Folder"]
 
-    await folderController.createFolder(req, res);
+    await folderController.create(req, res);
 });
 
-router.get("/", async (req, res) => {
-    //  #swagger.path = "/folder/getAllFolders"
+router.get("/:userId/findAll", async (req, res) => {
+    //  #swagger.path = "/folder/{userId}/findAll"
     //  #swagger.tags = ["Folder"]
 
     await folderController.getAllFolders(req, res);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:userId/update/:folderId", async (req, res) => {
 
-    /*  #swagger.path = "/folder/{updateFolder}"
+    /*  #swagger.path = "/folder/{userId}/update/{userId}"
         #swagger.parameters['Authorization'] = {
         in: "header",
         required: true
@@ -41,9 +44,9 @@ router.put("/:id", async (req, res) => {
         await folderController.updateFolder(req, res);
 });
 
-router.delete("/:id", async(req, res) => {
+router.delete("/:userId/delete/:folderId", async(req, res) => {
 
-    /*  #swagger.path = "/folder/{deleteFolder}"
+    /*  #swagger.path = "/folder/{userId}/delete/{folderId}"
         #swagger.parameters['Authorization'] = {
         in: "header",
         required: true
