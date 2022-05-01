@@ -27,8 +27,8 @@ router.get("/find/:userId", async (req, res) => {
 
     /*  #swagger.path = "/user/find/{userId}"
         #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true
+            in: "header",
+            required: true
     } 
         #swagger.tags = ["User"]
     */
@@ -39,10 +39,6 @@ router.get("/find/:userId", async (req, res) => {
 router.post("/refreshToken", async (req, res) => {
 
     /*  #swagger.path = "/user/refreshToken"
-        #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true
-    } 
         #swagger.tags = ["User"]
     */
 
@@ -59,9 +55,6 @@ router.post("/login", async (req, res) => {
 
 router.put("/update/:userId", async (req, res) => {
 
-
-    await userController.updateOne(req, res)
-
     /*  #swagger.path = "/user/update/{userId}"
         #swagger.parameters['Authorization'] = {
         in: "header",
@@ -69,6 +62,9 @@ router.put("/update/:userId", async (req, res) => {
     } 
         #swagger.tags = ["User"]
     */
+
+    await userController.updateOne(req, res)
+
 })
 
 router.delete("/delete/:userId", async (req, res) => {

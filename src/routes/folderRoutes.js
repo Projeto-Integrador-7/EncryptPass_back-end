@@ -15,15 +15,26 @@ router.get("/:folderId", async (req, res) => {
 
 router.post("/createFolder", async (req, res) => {
 
-    //  #swagger.path = "/folder/createFolder"
-    //  #swagger.tags = ["Folder"]
+    /* #swagger.path = "/folder/createFolder"
+     #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true
+    } 
+    #swagger.tags = ["Folder"]
+    */
 
     await folderController.createFolder(req, res);
 });
 
 router.get("/", async (req, res) => {
-    //  #swagger.path = "/folder/getAllFolders"
-    //  #swagger.tags = ["Folder"]
+
+    /* #swagger.path = "/folder/"
+     #swagger.parameters['Authorization'] = {
+        in: "header",
+        required: true
+    } 
+    #swagger.tags = ["Folder"]
+    */
 
     await folderController.getAllFolders(req, res);
 });
@@ -38,10 +49,10 @@ router.put("/:id", async (req, res) => {
         #swagger.tags = ["Folder"]
     */
 
-        await folderController.updateFolder(req, res);
+    await folderController.updateFolder(req, res);
 });
 
-router.delete("/:id", async(req, res) => {
+router.delete("/:id", async (req, res) => {
 
     /*  #swagger.path = "/folder/{deleteFolder}"
         #swagger.parameters['Authorization'] = {

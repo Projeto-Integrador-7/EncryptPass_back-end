@@ -10,7 +10,7 @@ const { find } = require("../models/userModel")
 function generateToken(id) {
 
     const token = sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: "20s"
+        expiresIn: "72h"
     })
 
     return token;

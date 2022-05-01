@@ -6,7 +6,7 @@ async function createRefreshToken (userId) {
     await UserModel.updateOne({ _id: userId },
         {
             refreshToken: {
-                expiresIn: dayjs().add(20, "second").unix()
+                expiresIn: dayjs().add(14, "day").unix()
             }
         }
     )
