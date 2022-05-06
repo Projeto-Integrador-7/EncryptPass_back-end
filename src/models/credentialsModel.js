@@ -40,7 +40,16 @@ CredentialsSchema.pre('save', function (next) {
 
     this.password = encryptedPass;
 
-    next();
+    return next();
+})
+
+CredentialsSchema.pre('updateOne', function (next) {
+
+    const encryptedPass = crypto.AES.encrypt(this._update.password, process.env.ENCRYPT_SECRET).toString()
+
+    this._update.password = encryptedPass;
+
+    return next();
 })
 
 const Credentials = mongoose.model("Credentials", CredentialsSchema)

@@ -1,3 +1,4 @@
+const { required } = require('nodemon/lib/config');
 const mongoose = require('../config/db');
 
 const FolderSchema = new mongoose.Schema({
@@ -10,14 +11,14 @@ const FolderSchema = new mongoose.Schema({
     description: {
         type: String,
         minLength: 3,
-        maxLength: 40,
+        maxLength: 150,
         required: false
     },
-    userId: [{
+    userId: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-        required: true
-    }]
+        required: false
+    }
 },
 {
     versionKey: false,
