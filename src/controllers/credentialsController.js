@@ -8,14 +8,14 @@ async function create(req, res) {
     const { body } = req
     const { userId } = req.params
 
-    body.userId = userId;
-
     try {
+
+        body.userId = userId;
 
         if(!isUserAllowed(userId, req.userId))
             return res.status(403).json({Erro: "O usuário não possuí acesso ao recurso!"})
 
-        if(!await UserModel.findById(body.userId))
+        if(!await UserModel.findOne({_id : { $eq : userId}}))
             return res.status(400).json({Erro: "O usuário não foi encontrado!"})
 
         const credentials = await CredentialsModel.create(body)
@@ -116,7 +116,7 @@ async function updateOne(req, res) {
         if(!isUserAllowed(userId, req.userId)) 
             return res.status(403).json({Erro: "O usuário não possuí acesso ao recurso!"})
 
-        const updateRes = await CredentialsModel.updateOne({_id : credentialsId}, body)
+        const updateRes = await CredentialsModel.updateOne({_id : { $eq: credentialsId}}, body)
         
         if(!updateRes.modifiedCount) {
             return res.status(404).json({Erro: "A credencial não foi encontrada!"})

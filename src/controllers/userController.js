@@ -22,7 +22,7 @@ async function create(req, res) {
 
     try {
 
-        const registeredUser = await UserModel.findOne({ email: body.email })
+        const registeredUser = await UserModel.findOne({ email: {$eq: body.email}})
         if (registeredUser) {
             return res.status(409).json({ Erro: "O email fornecido já está cadastrado!" })
         }
@@ -68,7 +68,7 @@ async function refreshToken(req, res) {
 
     try {
 
-        const user = await UserModel.findOne({ "refreshToken._id": refreshToken })
+        const user = await UserModel.findOne({ "refreshToken._id": { $eq : refreshToken }})
 
         if (!user)
             return res.status(401).json({ Erro: "O refresh token não foi encontrado!" })
@@ -107,7 +107,7 @@ async function login(req, res) {
     try {
 
         const user = await UserModel.findOne({
-            email: email
+            email: { $eq: email}
         }).select("+password")
 
         if (!user) {
