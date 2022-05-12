@@ -17,6 +17,12 @@ router.use(['/create', '/login'], validEmail)
 router.post("/create", async (req, res) => {
 
     /*  #swagger.path = "/user/create"
+        #swagger.parameters['body'] = {
+            in: "body",
+            required: true,
+            schema: { $ref: '#/definitions/User' }
+        }
+
         #swagger.tags = ["User"]
     */
 
@@ -26,10 +32,12 @@ router.post("/create", async (req, res) => {
 router.get("/find/:userId", async (req, res) => {
 
     /*  #swagger.path = "/user/find/{userId}"
-        #swagger.parameters['Authorization'] = {
+        #swagger.parameters['authorization'] = {
             in: "header",
-            required: true
-    } 
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        } 
+
         #swagger.tags = ["User"]
     */
 
@@ -39,6 +47,12 @@ router.get("/find/:userId", async (req, res) => {
 router.post("/refreshToken", async (req, res) => {
 
     /*  #swagger.path = "/user/refreshToken"
+        #swagger.parameters['refreshToken'] = {
+            in: "body",
+            required: true,
+            schema: {$ref: '#/definitions/Refreshtoken'}
+        } 
+
         #swagger.tags = ["User"]
     */
 
@@ -47,8 +61,15 @@ router.post("/refreshToken", async (req, res) => {
 
 router.post("/login", async (req, res) => {
 
-    //  #swagger.path = "/user/login"
-    //  #swagger.tags = ["User"]
+    /*  #swagger.path = "/user/login"
+        #swagger.parameters['body'] = {
+            in: "body",
+            required: true,
+            schema: { $ref: '#/definitions/Login' }
+        }
+
+        #swagger.tags = ["User"]
+    */
 
     await userController.login(req, res)
 })
@@ -56,10 +77,17 @@ router.post("/login", async (req, res) => {
 router.put("/update/:userId", async (req, res) => {
 
     /*  #swagger.path = "/user/update/{userId}"
-        #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true
-    } 
+        #swagger.parameters['authorization'] = {
+            in: "header",
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        }
+        #swagger.parameters['body'] = {
+            in: "body",
+            required: true,
+            schema: { $ref: '#/definitions/User' }
+        }
+
         #swagger.tags = ["User"]
     */
 
@@ -70,10 +98,12 @@ router.put("/update/:userId", async (req, res) => {
 router.delete("/delete/:userId", async (req, res) => {
 
     /*  #swagger.path = "/user/delete/{userId}"
-        #swagger.parameters['Authorization'] = {
-        in: "header",
-        required: true
-    } 
+        #swagger.parameters['authorization'] = {
+            in: "header",
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        }
+
         #swagger.tags = ["User"]
     */
 

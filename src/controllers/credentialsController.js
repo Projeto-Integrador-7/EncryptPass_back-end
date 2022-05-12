@@ -102,6 +102,7 @@ async function findAllByFolder(req, res) {
         return res.status(200).json({Sucesso: "As credenciais foram buscadas com sucesso!", credentials})
         
     } catch (error) {
+        console.log(error)
         return res.status(400).json({Erro: "Houve um erro!"})
     }
 }
