@@ -37,16 +37,24 @@ const doc = {
             passwordReminderTip: "Some tip",
             phoneNumber: "34 99999-9999"
         },
+        Login: {
+            email: "jose@email.com",
+            password: "password"
+        },
+        Authorization : "Bearer Token",
+        Refreshtoken: {
+            refreshToken: "refreshToken"}
+            ,
         Credentials: {
             title: "Google",
             url: "https://www.google.com.br/",
             password: "password",
             login: "jose@email.com",
-            folderId: "6237a07d0c3f8033d777160e"
+            folderId: "folderId"
         },
         Folder: {
             title: "Séries",
-            description: "Pasta para séries Netflix"
+            description: "Pasta para séries da Netflix"
         }
     }
 }

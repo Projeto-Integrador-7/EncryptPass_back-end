@@ -130,7 +130,6 @@ async function login(req, res) {
         return res.status(400).json({ Erro: "Os dados fornecidos não são válidos!" });
 
     } catch (error) {
-        console.log(error)
         return res.status(400).json({ Erro: "Houve um erro!" });
     }
 }
@@ -145,7 +144,7 @@ async function updateOne(req, res) {
         if (!isUserAllowed(userId, req.userId))
             return res.status(403).json({ Erro: "O usuário não possuí acesso ao recurso!" })
 
-        const updateRes = await UserModel.updateOne({ _id: userId }, body)
+        const updateRes = await UserModel.updateOne({ _id: { $eq :userId }}, body)
 
         if (!updateRes.modifiedCount) {
             return res.status(404).json({ Erro: "O usuário não foi encontrado!" })
