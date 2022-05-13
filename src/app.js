@@ -19,7 +19,7 @@ server.use(limiter)
 server.use(express.json())
 server.use(cors())
 
-const port = 3005
+const port = process.env.PORT || 3005
 
 server.listen(port, () => {
   console.log(`running on port ${port}`)
