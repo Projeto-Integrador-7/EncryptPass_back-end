@@ -44,6 +44,14 @@ const UserSchema = new moongose.Schema({
         required: false,
         trim: true
     },
+    passwordResetToken: {
+        type: String,
+        select: false
+    },
+    passwordRefreshToken: {
+        type: Date,
+        select: false
+    },
     refreshToken: {
         type: RefreshToken,
         required: false

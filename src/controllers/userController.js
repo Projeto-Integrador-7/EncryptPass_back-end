@@ -1,11 +1,14 @@
 const { sign } = require("jsonwebtoken")
 const { compare } = require('bcrypt')
 const dayjs = require('dayjs')
+const mailer = require('../modules/mailer')
+const crypto = require('crypto-js')
 
 const UserModel = require('../models/userModel')
 const isUserAllowed = require('../utils/compareUserIdWithToken')
 const createRefreshToken = require('../utils/createRefreshToken')
 const { find } = require("../models/userModel")
+const { send } = require("express/lib/response")
 
 function generateToken(id) {
 
@@ -181,11 +184,79 @@ async function deleteOne(req, res) {
     }
 }
 
+async function forgotPassword(req, res) {
+    const { email } = req.body;
+    try {
+
+        const user = await UserModel.findOne({ email });
+        if(!user) {
+            return res.status(400).send({ error: "Usuário não encontrado." });
+        }
+
+        const token = generateToken(user._id);
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+
+        await UserModel.findByIdAndUpdate(user.id, {
+            '$set': {
+                'passwordResetToken': token,
+                'passwordResetExpires': now
+            }
+        })
+
+        mailer.sendMail({
+            to: email,
+            from: 'projetopivii@gmail.com',
+            subject: 'Alteração de senha',
+            template: 'user/forgot_password',
+            context: { token }
+        }, (error) => {
+            if(error){
+                return res.status(400).send({ error: "Não foi possível enviar e-mail para redifinição de senha." });
+            }
+            return res.send();
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({error: 'Houve um erro'});
+    }
+}
+
+async function resetPassword(req, res) {
+    const { email, token, password, passwordReminderTip} = req.body;
+    try {
+        const user = await UserModel.findOne({ email }).select('+passwordResetToken passwordResetExpires');
+
+        if(!user){
+            return res.status(400).send({ error: "Usuário não encontrado" });
+        }
+
+        if(token !== user.passwordResetToken) {
+            return res.status(400).send({ error: "Token inválido." });
+        }
+
+        const now = new Date();
+        if(now > user.passwordResetExpires){
+            return res.status(400).send({ error: "Token expirado, gere um novo." });
+        }
+
+        user.password = password;
+        user.passwordReminderTip = passwordReminderTip;
+        await user.save();
+        res.status(200).send({sucesso: "Senha redefinida com sucesso."});
+        
+    } catch (error) {
+        res.status(400).send({error: 'Houve um erro'});
+    }
+}
+
 module.exports = {
     create,
     findOne,
     refreshToken,
     login,
     updateOne,
-    deleteOne
+    deleteOne,
+    forgotPassword,
+    resetPassword
 }
