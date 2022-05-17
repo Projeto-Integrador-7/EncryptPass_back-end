@@ -110,4 +110,32 @@ router.delete("/delete/:userId", async (req, res) => {
     await userController.deleteOne(req, res)
 })
 
+router.post("/forgot_password/:userId", async (req, res) => {
+    /*  #swagger.path = "/user/forgot_password/{userId}"
+        #swagger.parameters['authorization'] = {
+            in: "header",
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        }
+
+        #swagger.tags = ["User"]
+    */
+
+    await userController.forgotPassword(req, res); 
+})
+
+router.post("/reset_password/:userId", async (req, res) => {
+    /*  #swagger.path = "/user/forgot_password/{userId}"
+        #swagger.parameters['authorization'] = {
+            in: "header",
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        }
+
+        #swagger.tags = ["User"]
+    */
+
+    await userController.resetPassword(req, res);
+})
+
 module.exports = server => server.use('/user', router);
