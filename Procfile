@@ -1,1 +1,1 @@
-web: node ./src/swagger.js && nodemon ./src/app.js
+web: npm install && node ./src/swagger.js && nodemon ./src/app.js

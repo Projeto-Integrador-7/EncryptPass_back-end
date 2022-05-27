@@ -25,5 +25,8 @@
   },
   "devDependencies": {
     "dayjs": "^1.11.1"
+  },
+  "engines": {
+    "node": "16.15.0"
   }
 }
