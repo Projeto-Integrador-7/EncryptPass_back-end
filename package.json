@@ -1,14 +1,11 @@
 {
   "name": "password.saver.backend",
   "version": "1.0.0",
-  "engines": {
-    "node": "14.17.0",
-    "npm": "6.14.13"
-  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./src/swagger.js && nodemon ./src/app.js "
+    "start": "node ./src/app.js",
+    "dev": "node ./src/swagger.js && nodemon ./src/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,12 +22,7 @@
     "nodemailer-express-handlebars": "^5.0.0",
     "nodemon": "^2.0.15",
     "swagger-autogen": "^2.19.0",
-    "swagger-ui-express": "^4.3.0"
-  },
-  "devDependencies": {
+    "swagger-ui-express": "^4.3.0",
     "dayjs": "^1.11.1"
-  },
-  "engines": {
-    "node": "16.15.0"
   }
 }
