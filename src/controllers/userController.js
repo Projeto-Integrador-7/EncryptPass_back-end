@@ -217,7 +217,6 @@ async function forgotPassword(req, res) {
             return res.send();
         })
     } catch (error) {
-        console.log(error)
         res.status(400).send({error: 'Houve um erro'});
     }
 }
