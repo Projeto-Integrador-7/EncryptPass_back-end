@@ -29,15 +29,13 @@ async function create(req, res) {
         if (registeredUser) {
             return res.status(409).json({ Erro: "O email fornecido já está cadastrado!" })
         }
-
+        
         const user = await UserModel.create(body)
         const token = generateToken(user._id)
         return res.status(201).json({ Sucesso: "O usuário foi criado com sucesso!", user, token })
 
     } catch (error) {
-
         return res.status(400).json({ Erro: "Houve um erro!" })
-
     }
 }
 
@@ -96,10 +94,7 @@ async function refreshToken(req, res) {
                 token
             }
         )
-
-
     } catch (error) {
-
         return res.status(400).json({ Erro: "Houve um erro!" })
     }
 }
@@ -117,19 +112,21 @@ async function login(req, res) {
             return res.status(404).json({ Erro: "Os dados fornecidos não são válidos!" });
         }
 
+        const now  = new Date()
+        user.expirePassword.setDate(user.expirePassword.getDate() + 30);
+        if (now > user.expirePassword){
+            return res.status(400).json({Erro: "Senha expirada, favor criar uma nova diferente da última utilizada!"});
+        }
+
         const result = await compare(password, user.password)
 
         if (result) {
             user.password = undefined;
             const token = generateToken(user._id)
-
             await createRefreshToken(user.id)
-
             const userWithRefreshToken = await UserModel.findById(user.id)
-
             return res.status(200).json({ Sucesso: "O login foi efetuado com sucesso!", userWithRefreshToken, token })
         }
-
         return res.status(400).json({ Erro: "Os dados fornecidos não são válidos!" });
 
     } catch (error) {
@@ -145,7 +142,7 @@ async function updateOne(req, res) {
     try {
 
         if (!isUserAllowed(userId, req.userId))
-            return res.status(403).json({ Erro: "O usuário não possuí acesso ao recurso!" })
+            return res.status(403).json({ Erro: "O usuário não possui acesso ao recurso!" })
 
         const updateRes = await UserModel.updateOne({ _id: { $eq :userId }}, body)
 
@@ -212,7 +209,7 @@ async function forgotPassword(req, res) {
             context: { token }
         }, (error) => {
             if(error){
-                return res.status(400).send({ error: "Não foi possível enviar e-mail para redifinição de senha." });
+                return res.status(400).send({ error: "Não foi possível enviar o e-mail para redifinição de senha." });
             }
             return res.send();
         })
@@ -241,9 +238,39 @@ async function resetPassword(req, res) {
 
         user.password = password;
         user.passwordReminderTip = passwordReminderTip;
+        user.expirePassword = now;
         await user.save();
         res.status(200).send({sucesso: "Senha redefinida com sucesso."});
         
+    } catch (error) {
+        res.status(400).send({error: 'Houve um erro'});
+    }
+}
+
+async function resetExpirePassword(req, res){
+    const { userId } = req.params;
+    const { password, passwordReminderTip } = req.body;
+
+    try {
+        const user = await UserModel.findById(userId).select("+password");
+        if(!user){
+            return res.status(400).json({ Erro: "Usuário não encontrado." });
+        }
+
+        const equalPass = await compare(password, user.password)
+        if(equalPass){
+            return res.status(400).json({ Erro: "A senha não pode ser a mesma utilizada anteriormente." });
+        }
+
+        const now = new Date();
+        now.setDate(now.getDate() + 30);
+
+        user.password = password;
+        user.passwordReminderTip = passwordReminderTip;
+        user.expirePassword = now;
+        await user.save();
+
+        return res.status(200).json({ Sucesso: "Senha redefinida com sucesso." });
     } catch (error) {
         res.status(400).send({error: 'Houve um erro'});
     }
@@ -257,5 +284,6 @@ module.exports = {
     updateOne,
     deleteOne,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    resetExpirePassword
 }

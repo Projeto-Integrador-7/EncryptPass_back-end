@@ -11,7 +11,7 @@ const authenticatedRoutes = [
 ]
 
 router.use(authenticatedRoutes, authMiddleware)
-router.use(['/create', '/update'], validPassForce)
+router.use(['/create', '/update,', '/reset_expire_password'], validPassForce)
 router.use(['/create', '/login'], validEmail)
 
 router.post("/create", async (req, res) => {
@@ -136,6 +136,20 @@ router.post("/reset_password/:userId", async (req, res) => {
     */
 
     await userController.resetPassword(req, res);
+})
+
+router.post("/reset_expire_password/:userId", async (req, res) => {
+    /*  #swagger.path = "/user/forgot_password/{userId}"
+        #swagger.parameters['authorization'] = {
+            in: "header",
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        }
+
+        #swagger.tags = ["User"]
+    */
+
+    await userController.resetExpirePassword(req, res);
 })
 
 module.exports = server => server.use('/user', router);

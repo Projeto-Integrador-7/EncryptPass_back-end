@@ -52,6 +52,10 @@ const UserSchema = new moongose.Schema({
         type: Date,
         select: false
     },
+    expirePassword: {
+        type: Date,
+        default: Date.now
+    },
     refreshToken: {
         type: RefreshToken,
         required: false
@@ -77,6 +81,14 @@ UserSchema.pre('updateOne', async function (next) {
         this._update.password = encryptedPass;
     }
 
+    return next();
+})
+
+UserSchema.pre('resetExpirePassword', async function(next) {
+    if(this.reset.password) {
+        const encryptedPass = await hash(this.reset.password, 10);
+        this.reset.password = encryptedPass;
+    }
     return next();
 })
 
