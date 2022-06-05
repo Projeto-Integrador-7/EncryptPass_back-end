@@ -249,7 +249,6 @@ async function resetForgotPassword(req, res) {
 async function resetPasswordSendMail(req, res) {
     const { email } = req.body;
     try {
-
         const user = await UserModel.findOne({ email });
         if(!user) {
             return res.status(400).send({ error: "Usuário não encontrado." });
