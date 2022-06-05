@@ -138,8 +138,22 @@ router.post("/reset_password/:userId", async (req, res) => {
     await userController.resetPassword(req, res);
 })
 
+router.post("/reset_password_email/:userId", async (req, res) => {
+    /*  #swagger.path = "/user/reset_expire_password/{userId}"
+        #swagger.parameters['authorization'] = {
+            in: "header",
+            required: true,
+            schema: {$ref: '#/definitions/Authorization'}
+        }
+
+        #swagger.tags = ["User"]
+    */
+
+    await userController.resetPasswordSendMail(req, res);
+})
+
 router.post("/reset_expire_password/:userId", async (req, res) => {
-    /*  #swagger.path = "/user/forgot_password/{userId}"
+    /*  #swagger.path = "/user/reset_expire_password/{userId}"
         #swagger.parameters['authorization'] = {
             in: "header",
             required: true,
