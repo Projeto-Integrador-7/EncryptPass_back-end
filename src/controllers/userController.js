@@ -113,6 +113,7 @@ async function login(req, res) {
         }
 
         const now  = new Date()
+        //now.setDate(now.getDate() + 50)
         user.expirePassword.setDate(user.expirePassword.getDate() + 30);
         if (now > user.expirePassword){
             return res.status(400).json({Erro: "Senha expirada, favor criar uma nova diferente da última utilizada!"});
@@ -247,24 +248,69 @@ async function resetPassword(req, res) {
     }
 }
 
+async function resetPasswordSendMail(req, res) {
+    const { email } = req.body;
+    try {
+
+        const user = await UserModel.findOne({ email });
+        if(!user) {
+            return res.status(400).send({ error: "Usuário não encontrado." });
+        }
+
+        const token = generateToken(user._id);
+        const now = new Date();
+        now.getMinutes(now.setMinutes() + 15);
+
+        await UserModel.findByIdAndUpdate(user.id, {
+            '$set': {
+                'passwordResetToken': token,
+                'passwordResetExpires': now
+            }
+        })
+
+        mailer.sendMail({
+            to: email,
+            from: 'projetopivii@gmail.com',
+            subject: 'Redefinição de senha',
+            template: 'user/reset_password',
+            context: { token }
+        }, (error) => {
+            if(error){
+                return res.status(400).send({ error: "Não foi possível enviar o e-mail para redifinição de senha." });
+            }
+            return res.send();
+        })
+    } catch (error) {
+        res.status(400).send({error: 'Houve um erro'});
+    }
+}
+
 async function resetExpirePassword(req, res){
     const { userId } = req.params;
-    const { password, passwordReminderTip } = req.body;
+    const { email, token, password, passwordReminderTip} = req.body;
+
 
     try {
-        const user = await UserModel.findById(userId).select("+password");
+        const user = await UserModel.findOne({ email }).select('+password passwordResetToken passwordResetExpires');
         if(!user){
             return res.status(400).json({ Erro: "Usuário não encontrado." });
         }
 
-        const equalPass = await compare(password, user.password)
+        if(token !== user.passwordResetToken) {
+            return res.status(400).send({ error: "Token inválido." });
+        }
+
+        const now = new Date();
+        if(now > user.passwordResetExpires){
+            return res.status(400).send({ error: "Token expirado, gere um novo." });
+        }
+
+        const equalPass = await compare(password, user.password);
         if(equalPass){
             return res.status(400).json({ Erro: "A senha não pode ser a mesma utilizada anteriormente." });
         }
 
-        const now = new Date();
         now.setDate(now.getDate() + 30);
-
         user.password = password;
         user.passwordReminderTip = passwordReminderTip;
         user.expirePassword = now;
@@ -285,5 +331,6 @@ module.exports = {
     deleteOne,
     forgotPassword,
     resetPassword,
-    resetExpirePassword
+    resetExpirePassword,
+    resetPasswordSendMail
 }

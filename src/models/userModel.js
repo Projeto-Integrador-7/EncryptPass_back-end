@@ -54,7 +54,7 @@ const UserSchema = new moongose.Schema({
     },
     expirePassword: {
         type: Date,
-        default: Date.now
+        default: Date.now(30)
     },
     refreshToken: {
         type: RefreshToken,
