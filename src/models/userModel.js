@@ -84,6 +84,14 @@ UserSchema.pre('updateOne', async function (next) {
     return next();
 })
 
+UserSchema.pre('resetForgotPassword', async function(next) {
+    if(this.reset.password) {
+        const encryptedPass = await hash(this.reset.password, 10);
+        this.reset.password = encryptedPass;
+    }
+    return next();
+})
+
 UserSchema.pre('resetExpirePassword', async function(next) {
     if(this.reset.password) {
         const encryptedPass = await hash(this.reset.password, 10);
