@@ -304,13 +304,16 @@
             "schema": {
               "type": "object",
               "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "token": {
+                  "example": "any"
+                },
                 "password": {
                   "example": "any"
                 },
                 "passwordReminderTip": {
-                  "example": "any"
-                },
-                "token": {
                   "example": "any"
                 }
               }

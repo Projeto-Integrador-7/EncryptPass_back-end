@@ -111,9 +111,7 @@ async function login(req, res) {
         if (!user) {
             return res.status(404).json({ Erro: "Os dados fornecidos não são válidos!" });
         }
-
         const now  = new Date()
-        //now.setDate(now.getDate() + 50)
         user.expirePassword.setDate(user.expirePassword.getDate() + 30);
         if (now > user.expirePassword){
             return res.status(400).json({Erro: "Senha expirada, favor criar uma nova diferente da última utilizada!"});
@@ -219,7 +217,7 @@ async function forgotPassword(req, res) {
     }
 }
 
-async function resetPassword(req, res) {
+async function resetForgotPassword(req, res) {
     const { email, token, password, passwordReminderTip} = req.body;
     try {
         const user = await UserModel.findOne({ email }).select('+passwordResetToken passwordResetExpires');
@@ -330,7 +328,7 @@ module.exports = {
     updateOne,
     deleteOne,
     forgotPassword,
-    resetPassword,
+    resetForgotPassword,
     resetExpirePassword,
     resetPasswordSendMail
 }
