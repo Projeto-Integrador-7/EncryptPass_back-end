@@ -13,11 +13,9 @@ async function create(req, res) {
 
         const folder = await FolderModel.create(
             {
-
                 title: body.title,
                 description: body.description,
                 userId: userId
-
             }
         );
         return res.status(201).json({ Sucesso: "Nova pasta criada com sucesso.", folder });
@@ -77,12 +75,7 @@ async function updateFolder(req, res) {
         if (!isUserAllowed(userId, req.userId)) {
             return res.status(403).json({ Erro: "O usuário não possui acesso ao recurso!" });
         }
-
-        const verificarSeExistePasta = await FolderModel.findOne({ title: { $eq: body.title}});
-        if (verificarSeExistePasta) {
-            return res.status(400).json({ Erro: "Já existe uma pasta criada com ese nome!" });
-        }
-
+        
         const updateRes = await FolderModel.updateOne({ _id: { $eq: folderId } },
             {
                 title: body.title,
