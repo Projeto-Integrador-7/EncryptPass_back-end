@@ -12,9 +12,9 @@ const doc = {
         version: "1.0.0",
         title: "EncryptPass"
     },
-    host: "localhost:3005",
+    host: "https://encryptpassapi.vercel.app/",
     basePath: "/",
-    schemes: ['http'],
+    schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
