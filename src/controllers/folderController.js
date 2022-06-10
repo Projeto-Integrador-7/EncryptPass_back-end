@@ -1,12 +1,12 @@
 const FolderModel = require('../models/folderModel');
 const isUserAllowed = require('../utils/compareUserIdWithToken');
 
-async function create(req, res) {
+async function create(req, res) { 
     const body = req.body;
     const { userId } = req.params;
 
     try {
-        const verificarSeExistePasta = await FolderModel.findOne({ title: { $eq: body.title}});
+        const verificarSeExistePasta = await FolderModel.findOne({ title: { $eq: body.title}} && {userId: { $eq: body.userId }});
         if (verificarSeExistePasta) {
             return res.status(400).json({ Erro: "Já existe uma pasta criada com ese nome!" });
         }
