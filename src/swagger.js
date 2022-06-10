@@ -12,9 +12,9 @@ const doc = {
         version: "1.0.0",
         title: "EncryptPass"
     },
-    host: "localhost:3005",
+    host: "encryptpassapi.vercel.app",
     basePath: "/",
-    schemes: ['http'],
+    schemes: ['https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
@@ -22,7 +22,7 @@ const doc = {
             "name": "User",
         },
         {
-            "name" : "Credentials"
+            "name": "Credentials"
         },
         {
             "name": "Folder"
@@ -41,10 +41,10 @@ const doc = {
             email: "jose@email.com",
             password: "password"
         },
-        Authorization : "Bearer Token",
+        Authorization: "Bearer Token",
         Refreshtoken: {
-            refreshToken: "refreshToken"}
-            ,
+            refreshToken: "refreshToken"
+        },
         Credentials: {
             title: "Google",
             url: "https://www.google.com.br/",

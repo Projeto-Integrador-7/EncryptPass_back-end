@@ -1,11 +1,16 @@
-
 {
-    "version": 2,
-    "name": "encrypt-pass-back-end",
-    "builds": [
-      { "src": "src/app.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-      { "src": "/(.*)", "dest": "/src/app.js" }
-    ]
-  }
+  "version": 2,
+  "name": "encrypt-pass-back-end",
+  "builds": [
+    {
+      "src": "src/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/app.js"
+    }
+  ]
+}

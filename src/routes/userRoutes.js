@@ -4,13 +4,7 @@ const authMiddleware = require("./middlewares/auth")
 const validEmail = require("./middlewares/validEmail")
 const validPassForce = require("./middlewares/validPassForce")
 
-const authenticatedRoutes = [
-    '/update',
-    '/delete',
-    '/find'
-]
-
-router.use(authenticatedRoutes, authMiddleware)
+router.use(['/update', '/delete', '/find'], authMiddleware)
 router.use(['/create', '/update,', '/reset_password', '/reset_expire_password'], validPassForce)
 router.use(['/create', '/login'], validEmail)
 
@@ -121,7 +115,7 @@ router.post("/forgot_password_email/:userId", async (req, res) => {
         #swagger.tags = ["User"]
     */
 
-    await userController.forgotPassword(req, res); 
+    await userController.forgotPassword(req, res);
 })
 
 router.post("/reset_forgot_password/:userId", async (req, res) => {
