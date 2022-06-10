@@ -42,6 +42,22 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Authorization"
+            }
+          },
+          {
+            "name": "refreshToken",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Refreshtoken"
+            }
           }
         ],
         "responses": {
@@ -50,6 +66,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "409": {
             "description": "Conflict"
@@ -71,15 +90,35 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Authorization"
             }
+          },
+          {
+            "name": "refreshToken",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Refreshtoken"
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/user/refreshToken": {
@@ -89,6 +128,22 @@
         ],
         "description": "",
         "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Authorization"
+            }
+          },
           {
             "name": "refreshToken",
             "in": "body",
@@ -125,6 +180,22 @@
             "schema": {
               "$ref": "#/definitions/Login"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Authorization"
+            }
+          },
+          {
+            "name": "refreshToken",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Refreshtoken"
+            }
           }
         ],
         "responses": {
@@ -133,6 +204,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -154,6 +228,14 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
@@ -162,11 +244,11 @@
             }
           },
           {
-            "name": "body",
+            "name": "refreshToken",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Refreshtoken"
             }
           }
         ],
@@ -176,6 +258,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
@@ -200,11 +285,27 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Authorization"
+            }
+          },
+          {
+            "name": "refreshToken",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Refreshtoken"
             }
           }
         ],
@@ -214,6 +315,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
@@ -238,6 +342,14 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
@@ -246,15 +358,11 @@
             }
           },
           {
-            "name": "body",
+            "name": "refreshToken",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Refreshtoken"
             }
           }
         ],
@@ -264,6 +372,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -282,6 +393,14 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
@@ -290,24 +409,11 @@
             }
           },
           {
-            "name": "body",
+            "name": "refreshToken",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "token": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "passwordReminderTip": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Refreshtoken"
             }
           }
         ],
@@ -317,6 +423,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -335,6 +444,14 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
@@ -343,15 +460,11 @@
             }
           },
           {
-            "name": "body",
+            "name": "refreshToken",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Refreshtoken"
             }
           }
         ],
@@ -361,6 +474,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -379,6 +495,14 @@
             "type": "string"
           },
           {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
             "name": "authorization",
             "in": "header",
             "required": true,
@@ -387,24 +511,11 @@
             }
           },
           {
-            "name": "body",
+            "name": "refreshToken",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "token": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "passwordReminderTip": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Refreshtoken"
             }
           }
         ],
@@ -414,6 +525,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
