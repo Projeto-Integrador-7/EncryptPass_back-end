@@ -6,7 +6,7 @@ async function create(req, res) {
     const { userId } = req.params;
 
     try {
-        const verificarSeExistePasta = await FolderModel.findOne({ title: { $eq: body.title}} && {userId: { $eq: body.userId }});
+        const verificarSeExistePasta = await FolderModel.findOne({ title: { $eq: body.title}, userId: { $eq: userId }});
         if (verificarSeExistePasta) {
             return res.status(400).json({ Erro: "Já existe uma pasta criada com ese nome!" });
         }
@@ -21,6 +21,7 @@ async function create(req, res) {
         return res.status(201).json({ Sucesso: "Nova pasta criada com sucesso.", folder });
 
     } catch (error) {
+        console.log(error)
         return res.status(400).json({ Erro: "Requisição Inválida." });
     }
 }
