@@ -181,10 +181,10 @@ async function deleteOne(req, res) {
 }
 
 async function forgotPassword(req, res) {
+    const { userId } = req.params;
     const { email } = req.body;
     try {
-
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ userId });
         if(!user) {
             return res.status(400).send({ error: "Usuário não encontrado." });
         }
@@ -202,8 +202,8 @@ async function forgotPassword(req, res) {
 
         mailer.sendMail({
             to: email,
-            from: 'projetopivii@gmail.com',
-            subject: 'Alteração de senha',
+            from: 'Encrypt Pass <encryptpasss@gmail.com>',
+            subject: 'Recuperação de senha',
             template: 'user/forgot_password',
             context: { token }
         }, (error) => {
@@ -218,9 +218,10 @@ async function forgotPassword(req, res) {
 }
 
 async function resetForgotPassword(req, res) {
-    const { email, token, password, passwordReminderTip} = req.body;
+    const { userId } = req.params;
+    const { token, password, passwordReminderTip} = req.body;
     try {
-        const user = await UserModel.findOne({ email }).select('+passwordResetToken passwordResetExpires');
+        const user = await UserModel.findOne({ userId }).select('+passwordResetToken passwordResetExpires');
 
         if(!user){
             return res.status(400).send({ error: "Usuário não encontrado" });
@@ -247,16 +248,17 @@ async function resetForgotPassword(req, res) {
 }
 
 async function resetPasswordSendMail(req, res) {
+    const { userId } = req.params;
     const { email } = req.body;
     try {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ userId });
         if(!user) {
             return res.status(400).send({ error: "Usuário não encontrado." });
         }
 
         const token = generateToken(user._id);
         const now = new Date();
-        now.getMinutes(now.setMinutes() + 15);
+        now.setHours(now.getHours() + 1);
 
         await UserModel.findByIdAndUpdate(user.id, {
             '$set': {
@@ -267,7 +269,7 @@ async function resetPasswordSendMail(req, res) {
 
         mailer.sendMail({
             to: email,
-            from: 'projetopivii@gmail.com',
+            from: 'Encrypt Pass <encryptpasss@gmail.com>',
             subject: 'Redefinição de senha',
             template: 'user/reset_password',
             context: { token }
@@ -284,11 +286,10 @@ async function resetPasswordSendMail(req, res) {
 
 async function resetExpirePassword(req, res){
     const { userId } = req.params;
-    const { email, token, password, passwordReminderTip} = req.body;
-
+    const { token, password, passwordReminderTip} = req.body;
 
     try {
-        const user = await UserModel.findOne({ email }).select('+password passwordResetToken passwordResetExpires');
+        const user = await UserModel.findOne({ userId }).select('+password passwordResetToken passwordResetExpires');
         if(!user){
             return res.status(400).json({ Erro: "Usuário não encontrado." });
         }
